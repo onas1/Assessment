@@ -1,0 +1,93 @@
+﻿@model LoginViewModel
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class=" text-center mb-5">
+        <h1 class="display-4" >Welcome @User.Identity.Name</h1>
+    </div>
+    
+    <div class="row-4 text-center">
+        <p>How would you like to proceed?</p>
+        <div class="mr-2">
+            <div class="row ">
+                <form asp-controller="Assessment" asp-action="Search">
+                    <div class="col offset-md-11">
+                        <div class="row">
+                            <div class="form-group">
+                                <input type="text" name="query" placeholder="Ex. Name or 12/30/2021" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Search for an employee" class="btn btn-dark" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="mr-2">
+            <p>
+                <span class="text-info btn btn-outline-info"><a asp-action="Details" asp-controller="Assessment">View All Employees</a></span>
+            </p>
+        </div>
+        <div class="mr-2">
+            <p>
+                <span class="text-info btn btn-outline-info"><a asp-action="Create" asp-controller="Assessment">Add an employee </a></span>
+            </p>
+        </div>
+        <div class="mr-2">
+            <p>
+                <span class="text-warning btn btn-outline-warning"><a asp-action="Logout">Sign Out</a></span>
+            </p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Please enter your login information to sign in.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <form method="post" asp-action="Index">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password"  class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Login" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <p>Not a registered admin? Click <span><a asp-action="Register">here</a></span> to register.</p>
+    </div>
+}
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
